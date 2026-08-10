@@ -103,7 +103,7 @@ class TestConsonants:
             self._check(key, glyph)
 
     def test_pa_borgo(self):
-        for key, glyph in [("p", "প"), ("F", "ফ"), ("b", "ব"), ("v", "ভ"), ("m", "ম")]:
+        for key, glyph in [("p", "প"), ("f", "ফ"), ("b", "ব"), ("v", "ভ"), ("m", "ম")]:
             self._check(key, glyph)
 
     def test_others(self):
@@ -188,6 +188,11 @@ class TestSpecialCharsAndPhalas:
         # Shift+p is an alternate single-key way to produce র-ফলা, same
         # output as the two-key h+r sequence.
         assert compose(["P"]) == "্র" == compose(["h", "r"])
+
+    def test_reph_alternate_key(self):
+        # Shift+f is an alternate single-key way to produce রেফ, same
+        # output as the two-key r+h sequence.
+        assert compose(["F"]) == "র্" == compose(["r", "h"])
 
     def test_dari(self):
         assert compose(["L"]) == "।"

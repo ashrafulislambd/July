@@ -66,7 +66,7 @@ SINGLE_KEY: dict[str, str] = {
     "n": "ন",
     # প-বর্গ
     "p": "প",
-    "F": "ফ",
+    "f": "ফ",
     "b": "ব",
     "v": "ভ",
     "m": "ম",
@@ -90,6 +90,7 @@ SINGLE_KEY: dict[str, str] = {
     "$": "৳",  # টাকা চিহ্ন
     "V": "্য",  # য-ফলা (Shift+v)
     "P": "্র",  # র-ফলা, alternate single-key (Shift+p) — same output as h+r
+    "F": "র্",  # রেফ, alternate single-key (Shift+f) — same output as r+h
     "L": "।",  # দাড়ি, Bangla full stop (Shift+l)
     # 5. Numerals
     "0": "০",
