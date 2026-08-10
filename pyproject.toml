@@ -5,6 +5,13 @@ description = "A fixed-layout Bangla (Bornona) input method for Linux, built on 
 requires-python = ">=3.10"
 license = { text = "MIT" }
 
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]

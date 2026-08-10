@@ -65,7 +65,7 @@ SINGLE_KEY: dict[str, str] = {
     "y": "ধ",
     "n": "ন",
     # প-বর্গ
-    "P": "প",
+    "p": "প",
     "F": "ফ",
     "b": "ব",
     "v": "ভ",
@@ -85,10 +85,12 @@ SINGLE_KEY: dict[str, str] = {
     "h": "্",  # হসন্ত (virama) own glyph, used when flushed unresolved
     "q": "ং",  # অনুস্বার
     ":": "ঃ",  # বিসর্গ
-    "^": "ঁ",  # চন্দ্রবিন্দু
+    "@": "ঁ",  # চন্দ্রবিন্দু (Shift+2)
     "&": "ৎ",  # খণ্ড ত (Shift+7)
     "$": "৳",  # টাকা চিহ্ন
     "V": "্য",  # য-ফলা (Shift+v)
+    "P": "্র",  # র-ফলা, alternate single-key (Shift+p) — same output as h+r
+    "L": "।",  # দাড়ি, Bangla full stop (Shift+l)
     # 5. Numerals
     "0": "০",
     "1": "১",

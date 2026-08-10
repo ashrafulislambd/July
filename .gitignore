@@ -4,3 +4,9 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 *.egg-info/
+.coverage
+
+# Claude Code harness-managed files, not project source
+.agents/
+.claude/
+skills-lock.json
