@@ -20,12 +20,35 @@ CONFIG_SECTION = "engine/bornona"
 # lowercase key from the start avoids a signal-vs-storage case mismatch.
 CONFIG_KEY_MODE = "mode"
 
+ENGINE_NAME = "bornona"
+
+
+def get_bus() -> IBus.Bus:
+    """Connect to ibus-daemon and return the Bus proxy."""
+    IBus.init()
+    return IBus.Bus()
+
 
 def get_config() -> IBus.Config:
     """Connect to ibus-daemon and return its Config service proxy."""
-    IBus.init()
-    bus = IBus.Bus()
-    return bus.get_config()
+    return get_bus().get_config()
+
+
+def ensure_bornona_engine_active(bus: IBus.Bus | None = None) -> None:
+    """Make Bornona the active IBus engine, selecting it if it isn't.
+
+    Not every desktop runs IBus's own panel/tray switcher (confirmed
+    missing on this machine's XFCE session), so there may be no other way
+    for the user to select Bornona as an input source at all. The floating
+    bar calls this on startup so it works as the single control surface,
+    the same way Avro's floating bar does — no separate system switcher
+    required.
+    """
+    bus = bus or get_bus()
+    current = bus.get_global_engine()
+    if current is not None and current.get_name() == ENGINE_NAME:
+        return
+    bus.set_global_engine_async(ENGINE_NAME, -1, None, None, None)
 
 
 def read_bangla_mode(config: IBus.Config, default: bool = True) -> bool:
