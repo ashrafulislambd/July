@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Bornona Floating Bar
+Comment=Bangla input mode toggle bar for Bornona IBus
+Exec=@VENV_PYTHON@ -m bornona_ibus.floating_bar
+Icon=input-keyboard
+X-GNOME-Autostart-enabled=true
+Terminal=false

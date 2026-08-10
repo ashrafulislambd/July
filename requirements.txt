@@ -1,0 +1,8 @@
+# Dev/test tooling only. Runtime dependencies (PyGObject, IBus, GTK,
+# AyatanaAppIndicator3 bindings) come from system packages — see the
+# "System dependencies" section in README.md. The venv must be created
+# with --system-site-packages so those are importable; a plain venv
+# cannot pip-install working GTK/IBus bindings.
+pytest
+pytest-cov
+ruff
