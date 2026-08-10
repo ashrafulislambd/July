@@ -20,6 +20,12 @@ gi.require_version("IBus", "1.0")
 from gi.repository import GObject, IBus  # noqa: E402
 
 from bornona_ibus.composer import step  # noqa: E402
+from bornona_ibus.ipc import (  # noqa: E402
+    CONFIG_KEY_MODE,
+    CONFIG_SECTION,
+    get_config,
+    read_bangla_mode,
+)
 from bornona_ibus.layout_data import SINGLE_KEY  # noqa: E402
 
 # Printable ASCII range that Bornona keys live in (space through tilde).
@@ -57,6 +63,18 @@ _MODIFIER_KEYVALS = frozenset(
 )
 
 
+# One Config connection is enough for the whole process, even if IBus
+# creates multiple BornonaEngine instances (one per input context).
+_config_cache: IBus.Config | None = None
+
+
+def _shared_config() -> IBus.Config:
+    global _config_cache
+    if _config_cache is None:
+        _config_cache = get_config()
+    return _config_cache
+
+
 class BornonaEngine(IBus.Engine):
     """IBus engine implementing the Bornona fixed Bangla layout."""
 
@@ -65,6 +83,15 @@ class BornonaEngine(IBus.Engine):
     def __init__(self):
         super().__init__()
         self._pending: str | None = None
+        self._config = _shared_config()
+        self._bangla_mode = read_bangla_mode(self._config)
+        self._config.connect("value-changed", self._on_config_value_changed)
+
+    def _on_config_value_changed(self, _config, section: str, name: str, value) -> None:
+        if section == CONFIG_SECTION and name == CONFIG_KEY_MODE:
+            self._bangla_mode = bool(value.get_boolean())
+            if not self._bangla_mode:
+                self._flush_pending()
 
     def _flush_pending(self) -> None:
         """Commit any buffered pending key as its own glyph and clear it."""
@@ -81,6 +108,11 @@ class BornonaEngine(IBus.Engine):
         # Bare modifier presses (Shift, Ctrl, ...) carry no character and
         # must not disturb pending composition state.
         if keyval in _MODIFIER_KEYVALS:
+            return False
+
+        # Bangla mode toggled off (via the floating bar): pass every key
+        # through untouched, as if this engine weren't composing at all.
+        if not self._bangla_mode:
             return False
 
         # Let bypass-modified combinations (Ctrl/Alt/Super) through untouched,

@@ -49,13 +49,16 @@ window.bornona-bar {
 class FloatingBar(Gtk.Window):
     """A small always-on-top bar: mode toggle, settings, minimize-to-tray."""
 
-    def __init__(self, on_minimize=None, on_quit=None):
+    def __init__(
+        self, on_minimize=None, on_quit=None, on_mode_toggle=None, initial_bangla_mode=True
+    ):
         super().__init__(type=Gtk.WindowType.TOPLEVEL)
         self._on_minimize = on_minimize
         self._on_quit = on_quit
+        self._on_mode_toggle = on_mode_toggle
         self._dragging = False
         self._drag_offset = (0, 0)
-        self._bangla_mode = True
+        self._bangla_mode = initial_bangla_mode
 
         self.set_decorated(False)
         self.set_resizable(False)
@@ -103,8 +106,10 @@ class FloatingBar(Gtk.Window):
         handle.set_margin_end(4)
         outer.pack_start(handle, False, False, 0)
 
-        self._mode_button = self._make_button("বা", "Toggle Bangla/English")
-        self._mode_button.connect("clicked", self._on_mode_toggle)
+        self._mode_button = self._make_button(
+            "বা" if self._bangla_mode else "EN", "Toggle Bangla/English"
+        )
+        self._mode_button.connect("clicked", self._handle_mode_button_clicked)
         outer.pack_start(self._mode_button, False, False, 0)
 
         settings_button = Gtk.MenuButton()
@@ -134,9 +139,11 @@ class FloatingBar(Gtk.Window):
         menu.show_all()
         self._context_menu = menu
 
-    def _on_mode_toggle(self, _button: Gtk.Button) -> None:
+    def _handle_mode_button_clicked(self, _button: Gtk.Button) -> None:
         self._bangla_mode = not self._bangla_mode
         self._mode_button.set_label("বা" if self._bangla_mode else "EN")
+        if self._on_mode_toggle is not None:
+            self._on_mode_toggle(self._bangla_mode)
 
     def _on_minimize_clicked(self, _button: Gtk.Button) -> None:
         self.hide()
