@@ -1,0 +1,23 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@ --with python3 --buildsystem=pybuild
+
+override_dh_auto_install:
+	dh_auto_install
+
+	install -d debian/bornona-ibus/usr/share/ibus/component
+	sed 's|@EXEC@|/usr/bin/bornona-ibus-engine --ibus|' data/bornona.xml.in \
+		> debian/bornona-ibus/usr/share/ibus/component/bornona.xml
+
+	install -d debian/bornona-ibus/etc/xdg/autostart
+	sed 's|@VENV_PYTHON@ -m bornona_ibus.floating_bar|/usr/bin/bornona-ibus-bar|' \
+		data/autostart/bornona-floating-bar.desktop.in \
+		> debian/bornona-ibus/etc/xdg/autostart/bornona-floating-bar.desktop
+	sed 's|@ENSURE_SCRIPT@|/usr/bin/bornona-ensure-ibus-daemon|' \
+		data/autostart/ibus-daemon.desktop.in \
+		> debian/bornona-ibus/etc/xdg/autostart/ibus-daemon.desktop
+
+	install -d debian/bornona-ibus/usr/bin
+	install -m 755 scripts/ensure-ibus-daemon.sh \
+		debian/bornona-ibus/usr/bin/bornona-ensure-ibus-daemon

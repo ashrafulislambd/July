@@ -6,6 +6,17 @@ __pycache__/
 *.egg-info/
 .coverage
 
+# Debian package build artifacts (built from debian/ on demand, not checked in)
+.pybuild/
+debian/.debhelper/
+debian/bornona-ibus/
+debian/debhelper-build-stamp
+debian/files
+debian/*.substvars
+debian/*.debhelper
+debian/*.debhelper.log
+build/
+
 # Claude Code harness-managed files, not project source
 .agents/
 .claude/

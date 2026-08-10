@@ -1,0 +1,28 @@
+#!/bin/sh
+set -e
+
+if [ "$1" = "configure" ]; then
+    # ibus-daemon rescans /usr/share/ibus/component on next start; restart
+    # any already-running one so existing sessions see Bornona without a
+    # full logout, if there's one to restart.
+    if command -v ibus-daemon >/dev/null 2>&1 && pgrep -x ibus-daemon >/dev/null 2>&1; then
+        ibus-daemon -drx --xim >/dev/null 2>&1 || true
+    fi
+
+    cat <<'EOF'
+
+Bornona IBus installed. The floating bar will autostart on your next
+login and select Bornona automatically.
+
+If typing doesn't work in apps after that, your desktop likely isn't
+using ibus as its input method framework yet. Run:
+
+    im-config -n ibus
+
+then log out and log back in.
+EOF
+fi
+
+#DEBHELPER#
+
+exit 0

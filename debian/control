@@ -1,0 +1,27 @@
+Source: bornona-ibus
+Section: utils
+Priority: optional
+Maintainer: Bornona IBus project <manoj8indore@gmail.com>
+Build-Depends: debhelper-compat (= 13), dh-python, python3-all, python3-setuptools,
+ pybuild-plugin-pyproject
+Standards-Version: 4.6.2
+Rules-Requires-Root: no
+
+Package: bornona-ibus
+Architecture: all
+Depends: ${python3:Depends}, ${misc:Depends},
+ ibus,
+ python3-gi,
+ gir1.2-ibus-1.0,
+ gir1.2-gtk-3.0,
+ gir1.2-ayatanaappindicator3-0.1
+Description: Bornona fixed-layout Bangla input method for IBus
+ A Bangla input method for Linux built on IBus, implementing the Bornona
+ fixed key layout (see /usr/share/doc/bornona-ibus/Bornona.txt), with a
+ draggable, edge-snapping floating mode-toggle bar in the spirit of
+ Avro Keyboard.
+ .
+ After install, the floating bar autostarts for all users and makes
+ Bornona the active input engine automatically. On some desktops (those
+ without ibus already configured as the input method framework) you may
+ need to run "im-config -n ibus" once and log back in.
