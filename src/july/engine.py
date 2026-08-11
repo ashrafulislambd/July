@@ -19,14 +19,14 @@ import gi
 gi.require_version("IBus", "1.0")
 from gi.repository import GLib, GObject, IBus  # noqa: E402
 
-from bornona_ibus.composer import step  # noqa: E402
-from bornona_ibus.ipc import (  # noqa: E402
+from july.composer import step  # noqa: E402
+from july.ipc import (  # noqa: E402
     CONFIG_KEY_MODE,
     CONFIG_SECTION,
     get_config,
     read_bangla_mode,
 )
-from bornona_ibus.layout_data import SINGLE_KEY  # noqa: E402
+from july.layout_data import SINGLE_KEY  # noqa: E402
 
 # Printable ASCII range that Bornona keys live in (space through tilde).
 _PRINTABLE_MIN = 0x20

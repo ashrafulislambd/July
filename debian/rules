@@ -6,18 +6,18 @@
 override_dh_auto_install:
 	dh_auto_install
 
-	install -d debian/bornona-ibus/usr/share/ibus/component
-	sed 's|@EXEC@|/usr/bin/bornona-ibus-engine --ibus|' data/bornona.xml.in \
-		> debian/bornona-ibus/usr/share/ibus/component/bornona.xml
+	install -d debian/july-ibus/usr/share/ibus/component
+	sed 's|@EXEC@|/usr/bin/july-ibus-engine --ibus|' data/july.xml.in \
+		> debian/july-ibus/usr/share/ibus/component/july.xml
 
-	install -d debian/bornona-ibus/etc/xdg/autostart
-	sed 's|@VENV_PYTHON@ -m bornona_ibus.floating_bar|/usr/bin/bornona-ibus-bar|' \
-		data/autostart/bornona-floating-bar.desktop.in \
-		> debian/bornona-ibus/etc/xdg/autostart/bornona-floating-bar.desktop
-	sed 's|@ENSURE_SCRIPT@|/usr/bin/bornona-ensure-ibus-daemon|' \
-		data/autostart/ibus-daemon.desktop.in \
-		> debian/bornona-ibus/etc/xdg/autostart/ibus-daemon.desktop
+	install -d debian/july-ibus/etc/xdg/autostart
+	sed 's|@VENV_PYTHON@ -m july.floating_bar|/usr/bin/july-ibus-bar|' \
+		data/autostart/july-floating-bar.desktop.in \
+		> debian/july-ibus/etc/xdg/autostart/july-floating-bar.desktop
+	sed 's|@ENSURE_SCRIPT@|/usr/bin/july-ensure-ibus-daemon|' \
+		data/autostart/july-ibus-daemon.desktop.in \
+		> debian/july-ibus/etc/xdg/autostart/july-ibus-daemon.desktop
 
-	install -d debian/bornona-ibus/usr/bin
+	install -d debian/july-ibus/usr/bin
 	install -m 755 scripts/ensure-ibus-daemon.sh \
-		debian/bornona-ibus/usr/bin/bornona-ensure-ibus-daemon
+		debian/july-ibus/usr/bin/july-ensure-ibus-daemon

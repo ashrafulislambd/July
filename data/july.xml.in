@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component>
-  <name>org.freedesktop.IBus.Bornona</name>
-  <description>Bornona Bangla input method</description>
+  <name>org.freedesktop.IBus.July</name>
+  <description>July Bangla input method (Bornona layout)</description>
   <exec>@EXEC@</exec>
-  <version>0.1.0</version>
-  <author>Bornona IBus project</author>
+  <version>0.1.1</version>
+  <author>July project</author>
   <license>MIT</license>
   <homepage></homepage>
-  <textdomain>ibus-bornona</textdomain>
+  <textdomain>ibus-july</textdomain>
   <engines>
     <engine>
       <name>bornona</name>
       <language>bn</language>
       <license>MIT</license>
-      <author>Bornona IBus project</author>
+      <author>July project</author>
       <icon>input-keyboard</icon>
       <layout>us</layout>
       <longname>Bornona (Bangla)</longname>

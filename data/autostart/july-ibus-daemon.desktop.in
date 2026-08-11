@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
-Name=IBus Daemon
+Name=IBus Daemon (July safety net)
 Comment=Start ibus-daemon if it isn't already running (safety net alongside im-config)
 Exec=@ENSURE_SCRIPT@
 X-GNOME-Autostart-enabled=true

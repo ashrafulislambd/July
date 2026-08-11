@@ -62,7 +62,7 @@ def ensure_bornona_engine_active(bus: IBus.Bus | None = None) -> None:
         # Never let engine auto-selection take the whole bar down with it —
         # worst case the user selects Bornona manually, same as before this
         # existed.
-        print(f"bornona-ibus: could not set Bornona as active engine: {exc}", file=sys.stderr)
+        print(f"july: could not set Bornona as active engine: {exc}", file=sys.stderr)
 
 
 def read_bangla_mode(config: IBus.Config, default: bool = True) -> bool:

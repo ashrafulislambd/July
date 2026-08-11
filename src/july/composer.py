@@ -13,7 +13,7 @@ depending on what follows. Everything else resolves in one key.
 
 from __future__ import annotations
 
-from bornona_ibus.layout_data import PENDING_KEYS, SINGLE_KEY, TWO_KEY_SEQUENCES
+from july.layout_data import PENDING_KEYS, SINGLE_KEY, TWO_KEY_SEQUENCES
 
 
 def step(pending: str | None, key: str) -> tuple[str, str | None]:

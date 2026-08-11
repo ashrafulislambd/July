@@ -1,12 +1,16 @@
-# Bornona IBus
+# July
 
-A fixed-layout Bangla input method for Linux, built on [IBus](https://github.com/ibus/ibus),
-with a draggable, edge-snapping floating bar — the Bornona layout, in the
-spirit of Avro Keyboard, native to Linux.
+A Bangla input method for Linux, built on [IBus](https://github.com/ibus/ibus),
+with a draggable, edge-snapping floating bar in the spirit of Avro Keyboard.
+July ships the fixed-layout **Bornona** keyboard mapping — July is the
+project/product name, Bornona is the layout it types with (and a design
+that leaves room for other layouts later).
 
 Full design rationale and architecture decisions live in [`SPEC.md`](./SPEC.md)
 and [`tasks/plan.md`](./tasks/plan.md). The Bornona key→glyph mapping itself
-is the source of truth in [`Bornona.txt`](./Bornona.txt).
+is the source of truth in [`Bornona.txt`](./Bornona.txt), and is also
+browsable live from the floating bar's "?" user guide button (বাংলা/English
+toggle).
 
 ## System dependencies (Debian/Ubuntu)
 
@@ -32,7 +36,7 @@ python3 -m venv --system-site-packages .venv
 
 ```
 Run tests:              .venv/bin/pytest -q
-Run tests w/ coverage:  .venv/bin/pytest --cov=bornona_ibus --cov-report=term-missing
+Run tests w/ coverage:  .venv/bin/pytest --cov=july --cov-report=term-missing
 Lint:                   .venv/bin/ruff check .
 Format:                 .venv/bin/ruff format .
 ```
@@ -45,7 +49,7 @@ live over D-Bus against a running `ibus-daemon`):
 ```
 ibus-daemon -x --xim &            # if not already running
 scripts/run-dev.sh                # starts the engine
-.venv/bin/python3 -m bornona_ibus.floating_bar   # starts the bar
+.venv/bin/python3 -m july.floating_bar   # starts the bar
 ```
 
 **Real, permanent install** (selectable like any other input source, works
@@ -60,32 +64,52 @@ scripts/install-dev.sh            # sudo-installs the component descriptor,
 
 Then **log out and log back in** so your session picks up
 `GTK_IM_MODULE`/`QT_IM_MODULE`/`XMODIFIERS`. After that, the bar autostarts
-and Bornona becomes available with no further steps.
+and the Bornona engine becomes available with no further steps.
+
+For an actual one-click end-user install, build the `.deb` — see
+[Packaging](#packaging) below.
 
 ### Why the bar self-selects the engine
 
 Not every desktop runs IBus's own panel/tray switcher — confirmed missing
-on plain XFCE, where there'd otherwise be no UI at all to pick "Bornona" as
+on plain XFCE, where there'd otherwise be no UI at all to pick Bornona as
 the active input source. The floating bar calls
 `IBus.Bus.set_global_engine_async("bornona")` on startup if it isn't
 already active, making the bar itself the one control surface you need —
 matching how Avro's floating bar works.
+
+## Packaging
+
+A `.deb` gives end users a real one-click install (double-click → Software
+Center/gdebi → Install; `apt` pulls in all dependencies automatically).
+
+```
+sudo apt install debhelper dh-python python3-all pybuild-plugin-pyproject
+dpkg-buildpackage -us -uc -b
+```
+
+Produces `../july-ibus_<version>_all.deb` one directory up from the repo
+root. Installs to system Python (`/usr/lib/python3/dist-packages/july/`, no
+bundled venv), registers the IBus component, and installs autostart entries
+system-wide to `/etc/xdg/autostart/` (covers every user on the machine, not
+just the one who installed it). See `debian/` for the packaging source.
 
 ## Project structure
 
 ```
 Bornona.txt                 Source-of-truth key→glyph mapping
 SPEC.md                     Full spec: objective, architecture, boundaries
-src/bornona_ibus/
+src/july/
     composer.py              Pure, unit-tested key-composition state machine
     layout_data.py            Bornona key→glyph tables, derived from Bornona.txt
-    engine.py                 IBus.Engine wrapper
+    engine.py                 IBus.Engine wrapper (BornonaEngine)
     main.py                   Entry point / IBus component registration
     ipc.py                    Shared bar<->engine state via IBus Config
-    floating_bar/              Draggable/edge-snapping GTK bar, tray, settings
-data/bornona.xml.in          IBus component descriptor template
+    floating_bar/              Draggable/edge-snapping GTK bar, tray, settings, guide
+data/july.xml.in             IBus component descriptor template
 data/autostart/               Autostart .desktop templates (bar, ibus-daemon safety net)
 scripts/                     install-dev.sh, run-dev.sh, ensure-ibus-daemon.sh, dev test window
+debian/                      .deb packaging (see Packaging above)
 tests/test_composer.py       Composer unit tests (the core test suite)
 tasks/                       plan.md, todo.md — implementation plan and task list
 ```
@@ -102,6 +126,9 @@ tasks/                       plan.md, todo.md — implementation plan and task l
 - Only the fixed Bornona layout ships; the layout data structure is
   designed to be pluggable for a future phonetic mode, but that mode isn't
   built.
+- No AppIndicator3/AyatanaAppIndicator3 typelib on the system (e.g. plain
+  Ubuntu GNOME) means minimize-to-tray is unavailable — the bar detects
+  this and disables it rather than failing to start.
 
 ## License
 

@@ -1,11 +1,11 @@
-"""Unit tests for the Bornona composer (src/bornona_ibus/composer.py).
+"""Unit tests for the Bornona composer (src/july/composer.py).
 
 Written against the mapping in Bornona.txt. Each test feeds a raw key
 sequence (as typed) into `compose()` and asserts the exact Bangla Unicode
 output, per SPEC.md's Testing Strategy.
 """
 
-from bornona_ibus.composer import compose
+from july.composer import compose
 
 
 class TestIndependentVowels:

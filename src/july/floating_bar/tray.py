@@ -28,7 +28,7 @@ for _module_name in ("AyatanaAppIndicator3", "AppIndicator3"):
 
 TRAY_AVAILABLE = AppIndicator3 is not None
 
-APP_ID = "bornona-ibus"
+APP_ID = "july-ibus"
 
 
 class TrayIcon:
@@ -45,7 +45,7 @@ class TrayIcon:
         self._indicator = None
         if not self.is_available:
             print(
-                "bornona-ibus: no AppIndicator3/AyatanaAppIndicator3 typelib found; "
+                "july: no AppIndicator3/AyatanaAppIndicator3 typelib found; "
                 "tray icon disabled, minimize-to-tray unavailable.",
                 file=sys.stderr,
             )
@@ -60,10 +60,10 @@ class TrayIcon:
                 AppIndicator3.IndicatorCategory.APPLICATION_STATUS,
             )
             self._indicator.set_status(AppIndicator3.IndicatorStatus.PASSIVE)
-            self._indicator.set_title("Bornona")
+            self._indicator.set_title("July")
             self._indicator.set_menu(self._build_menu())
         except Exception as exc:  # noqa: BLE001 - degrade, don't crash the bar
-            print(f"bornona-ibus: tray icon setup failed ({exc}); disabling.", file=sys.stderr)
+            print(f"july: tray icon setup failed ({exc}); disabling.", file=sys.stderr)
             self.is_available = False
             self._indicator = None
 
@@ -73,13 +73,13 @@ class TrayIcon:
 
         menu = Gtk.Menu()
 
-        restore_item = Gtk.MenuItem(label="Show Bornona bar")
+        restore_item = Gtk.MenuItem(label="Show July bar")
         restore_item.connect("activate", lambda _item: self._on_restore())
         menu.append(restore_item)
 
         menu.append(Gtk.SeparatorMenuItem())
 
-        quit_item = Gtk.MenuItem(label="Quit Bornona")
+        quit_item = Gtk.MenuItem(label="Quit July")
         quit_item.connect("activate", lambda _item: self._on_quit and self._on_quit())
         menu.append(quit_item)
 

@@ -11,8 +11,8 @@ if [ "$1" = "configure" ]; then
 
     cat <<'EOF'
 
-Bornona IBus installed. The floating bar will autostart on your next
-login and select Bornona automatically.
+July installed. The floating bar will autostart on your next login and
+select the Bornona engine automatically.
 
 If typing doesn't work in apps after that, your desktop likely isn't
 using ibus as its input method framework yet. Run:

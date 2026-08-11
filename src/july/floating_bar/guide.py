@@ -14,7 +14,7 @@ import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk  # noqa: E402
 
-from bornona_ibus.composer import compose  # noqa: E402
+from july.composer import compose  # noqa: E402
 
 # Each section: (title_en, title_bn, rule_en, rule_bn, entries)
 # Each entry: (key_sequence, key_label, description_en, description_bn)
@@ -200,7 +200,7 @@ def _entry_row(key_label: str, glyph: str, desc_en: str, desc_bn: str, bangla: b
 
 def build_guide_window(bangla_initial: bool = True) -> Gtk.Window:
     """Build the (not-yet-shown) user guide window."""
-    win = Gtk.Window(title="Bornona — User Guide")
+    win = Gtk.Window(title="July — Bornona Layout Guide")
     win.set_default_size(480, 640)
     win.set_position(Gtk.WindowPosition.CENTER)
 

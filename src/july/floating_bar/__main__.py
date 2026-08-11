@@ -1,11 +1,11 @@
-"""Standalone launcher: `python -m bornona_ibus.floating_bar`.
+"""Standalone launcher: `python -m july.floating_bar`.
 
-On startup, ensures Bornona is the active IBus engine (not every desktop
+On startup, ensures the Bornona engine is the active IBus engine (not every desktop
 runs IBus's own panel/tray switcher — confirmed missing on XFCE here — so
 the bar is the one guaranteed control surface, same as Avro's). Wires the
 bar's mode toggle to the IBus engine's live state via the shared
 Config-based IPC (see SPEC.md's Architecture Decisions and
-`bornona_ibus.ipc`). Requires ibus-daemon to be running.
+`july.ipc`). Requires ibus-daemon to be running.
 
 The bar window is always constructed and shown first; IBus config/engine
 setup happens afterward and is defensive throughout (see `ipc.py`) — a
@@ -25,9 +25,9 @@ import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import GLib, Gtk  # noqa: E402
 
-from bornona_ibus.floating_bar.bar import FloatingBar  # noqa: E402
-from bornona_ibus.floating_bar.tray import TrayIcon  # noqa: E402
-from bornona_ibus.ipc import (  # noqa: E402
+from july.floating_bar.bar import FloatingBar  # noqa: E402
+from july.floating_bar.tray import TrayIcon  # noqa: E402
+from july.ipc import (  # noqa: E402
     ensure_bornona_engine_active,
     get_bus,
     read_bangla_mode,
@@ -77,7 +77,7 @@ def main() -> None:
         _config = bus.get_config()
         bar.set_bangla_mode(read_bangla_mode(_config))
     except GLib.Error as exc:
-        print(f"bornona-ibus: IBus setup failed, continuing without it: {exc}", file=sys.stderr)
+        print(f"july: IBus setup failed, continuing without it: {exc}", file=sys.stderr)
 
     Gtk.main()
 

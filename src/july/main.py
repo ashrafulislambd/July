@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Entry point for the Bornona IBus engine.
+"""Entry point for the July IBus engine (Bornona layout).
 
 Run with ``--ibus`` when spawned by ibus-daemon (the normal case, driven by
 the ``<exec>`` line in the installed component XML — see
-``data/bornona.xml.in`` and ``scripts/install-dev.sh``). Run with no
+``data/july.xml.in`` and ``scripts/install-dev.sh``). Run with no
 arguments for a quick standalone sanity check that registers the engine
 directly against a running ibus-daemon, without needing the component XML
 installed.
@@ -19,14 +19,14 @@ import gi
 gi.require_version("IBus", "1.0")
 from gi.repository import IBus  # noqa: E402
 
-from bornona_ibus.engine import BornonaEngine  # noqa: E402
+from july.engine import BornonaEngine  # noqa: E402
 
-COMPONENT_NAME = "org.freedesktop.IBus.Bornona"
+COMPONENT_NAME = "org.freedesktop.IBus.July"
 ENGINE_NAME = "bornona"
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Bornona IBus engine")
+    parser = argparse.ArgumentParser(description="July IBus engine (Bornona layout)")
     parser.add_argument(
         "--ibus",
         action="store_true",
@@ -52,13 +52,13 @@ def main() -> None:
         # to it immediately, without needing the XML installed first.
         component = IBus.Component.new(
             COMPONENT_NAME,
-            "Bornona Bangla input method (dev mode)",
-            "0.1.0",
+            "July Bangla input method (dev mode)",
+            "0.2.0",
             "MIT",
-            "Bornona IBus project",
+            "July project",
             "",
             "",
-            "ibus-bornona",
+            "ibus-july",
         )
         engine_desc = IBus.EngineDesc.new(
             ENGINE_NAME,
@@ -66,7 +66,7 @@ def main() -> None:
             "Bornona fixed-layout Bangla input method",
             "bn",
             "MIT",
-            "Bornona IBus project",
+            "July project",
             "input-keyboard",
             "us",
         )

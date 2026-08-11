@@ -1,13 +1,13 @@
 [project]
-name = "bornona-ibus"
-version = "0.1.1"
-description = "A fixed-layout Bangla (Bornona) input method for Linux, built on IBus."
+name = "july-ibus"
+version = "0.2.0"
+description = "July — a Bangla input method for Linux, built on IBus (Bornona layout)."
 requires-python = ">=3.10"
 license = { text = "MIT" }
 
 [project.scripts]
-bornona-ibus-engine = "bornona_ibus.main:main"
-bornona-ibus-bar = "bornona_ibus.floating_bar.__main__:main"
+july-ibus-engine = "july.main:main"
+july-ibus-bar = "july.floating_bar.__main__:main"
 
 [build-system]
 requires = ["setuptools>=61"]

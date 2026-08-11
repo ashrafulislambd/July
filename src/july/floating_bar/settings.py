@@ -12,7 +12,7 @@ import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk  # noqa: E402
 
-_VERSION = "0.1.0"
+_VERSION = "0.2.0"
 
 
 def build_settings_popover(relative_to: Gtk.Widget) -> Gtk.Popover:
@@ -32,7 +32,7 @@ def build_settings_popover(relative_to: Gtk.Widget) -> Gtk.Popover:
     box.set_border_width(10)
     popover.add(box)
 
-    title = Gtk.Label(label="Bornona IBus")
+    title = Gtk.Label(label="July (Bornona layout)")
     title.set_xalign(0)
     box.pack_start(title, False, False, 0)
 

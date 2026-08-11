@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=July Floating Bar
+Comment=Bangla input mode toggle bar for July (Bornona layout)
+Exec=@VENV_PYTHON@ -m july.floating_bar
+Icon=input-keyboard
+X-GNOME-Autostart-enabled=true
+Terminal=false

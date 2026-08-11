@@ -1,8 +1,8 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: bornona-ibus
+Upstream-Name: july-ibus
 
 Files: *
-Copyright: 2026 Bornona IBus contributors
+Copyright: 2026 July project contributors
 License: MIT
 
 License: MIT

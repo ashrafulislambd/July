@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Installs the Bornona IBus component descriptor so it's selectable as a
-# normal input source, plus autostart entries for the floating bar and a
-# safety-net ibus-daemon launcher.
+# Installs the July IBus component descriptor (Bornona layout) so it's
+# selectable as a normal input source, plus autostart entries for the
+# floating bar and a safety-net ibus-daemon launcher.
 #
 # NOTE: on this machine's IBus build (Ubuntu-packaged 1.5.29), ibus-daemon
 # only scans /usr/share/ibus/component for components — it does NOT scan a
@@ -19,7 +19,7 @@ set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PYTHON="$REPO_DIR/.venv/bin/python3"
-MAIN="$REPO_DIR/src/bornona_ibus/main.py"
+MAIN="$REPO_DIR/src/july/main.py"
 SYSTEM_DEST_DIR="/usr/share/ibus/component"
 AUTOSTART_DIR="$HOME/.config/autostart"
 
@@ -30,10 +30,10 @@ fi
 
 TMP_XML="$(mktemp)"
 trap 'rm -f "$TMP_XML"' EXIT
-sed "s|@EXEC@|$PYTHON $MAIN --ibus|" "$REPO_DIR/data/bornona.xml.in" > "$TMP_XML"
+sed "s|@EXEC@|$PYTHON $MAIN --ibus|" "$REPO_DIR/data/july.xml.in" > "$TMP_XML"
 
 echo "This will:"
-echo "  1. sudo-copy the component descriptor to $SYSTEM_DEST_DIR/bornona.xml"
+echo "  1. sudo-copy the component descriptor to $SYSTEM_DEST_DIR/july.xml"
 echo "  2. restart ibus-daemon"
 echo "  3. install autostart entries to $AUTOSTART_DIR"
 echo "Continue? [y/N]"
@@ -43,19 +43,19 @@ if [[ "$REPLY" != "y" && "$REPLY" != "Y" ]]; then
     exit 0
 fi
 
-sudo install -m 644 "$TMP_XML" "$SYSTEM_DEST_DIR/bornona.xml"
-echo "Installed to $SYSTEM_DEST_DIR/bornona.xml"
+sudo install -m 644 "$TMP_XML" "$SYSTEM_DEST_DIR/july.xml"
+echo "Installed to $SYSTEM_DEST_DIR/july.xml"
 
 echo "Restarting ibus-daemon..."
 ibus-daemon -drx || true
 
 mkdir -p "$AUTOSTART_DIR"
 sed "s|@VENV_PYTHON@|$PYTHON|" \
-    "$REPO_DIR/data/autostart/bornona-floating-bar.desktop.in" \
-    > "$AUTOSTART_DIR/bornona-floating-bar.desktop"
+    "$REPO_DIR/data/autostart/july-floating-bar.desktop.in" \
+    > "$AUTOSTART_DIR/july-floating-bar.desktop"
 sed "s|@ENSURE_SCRIPT@|$REPO_DIR/scripts/ensure-ibus-daemon.sh|" \
-    "$REPO_DIR/data/autostart/ibus-daemon.desktop.in" \
-    > "$AUTOSTART_DIR/ibus-daemon.desktop"
+    "$REPO_DIR/data/autostart/july-ibus-daemon.desktop.in" \
+    > "$AUTOSTART_DIR/july-ibus-daemon.desktop"
 echo "Installed autostart entries to $AUTOSTART_DIR"
 
 echo

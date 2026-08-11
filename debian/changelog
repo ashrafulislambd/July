@@ -1,5 +1,18 @@
-bornona-ibus (0.1.1-1) unstable; urgency=medium
+july-ibus (0.2.0-1) unstable; urgency=medium
 
+  * Renamed the project from "Bornona IBus" to "July" (the Bornona
+    layout itself keeps its name — July is the product, Bornona is the
+    keyboard layout it ships). Replaces/Conflicts/Provides
+    bornona-ibus so upgrading from the old package works cleanly.
+  * Fix h/r sitting invisibly as a pending key with no way to appear
+    until an unrelated later keystroke happened to resolve or flush
+    it -- and being silently lost entirely on focus-out before this,
+    not just delayed. Added a 400ms auto-flush timeout, and
+    focus-out/reset now flush the pending glyph instead of discarding
+    it.
+  * New in-bar user guide ("?" button): the full Bornona key mapping,
+    with a বাংলা/English toggle, glyphs computed live so it can't
+    drift out of sync with actual typing behavior.
   * Fix floating bar silently crashing on startup on desktops without
     AppIndicator3/AyatanaAppIndicator3 (e.g. plain Ubuntu GNOME) --
     the bar now degrades gracefully with minimize-to-tray disabled
@@ -11,10 +24,10 @@ bornona-ibus (0.1.1-1) unstable; urgency=medium
   * Uncaught startup errors now print a real traceback to stderr
     instead of failing silently with no diagnostic trail.
 
- -- Bornona IBus project <imdashraful17@gmail.com>  Wed, 12 Aug 2026 04:45:00 +0600
+ -- July project <imdashraful17@gmail.com>  Wed, 12 Aug 2026 05:15:00 +0600
 
 bornona-ibus (0.1.0-1) unstable; urgency=medium
 
   * Initial release.
 
- -- Bornona IBus project <imdashraful17@gmail.com>  Mon, 10 Aug 2026 10:00:00 +0600
+ -- July project <imdashraful17@gmail.com>  Mon, 10 Aug 2026 10:00:00 +0600

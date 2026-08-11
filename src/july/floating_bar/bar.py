@@ -15,8 +15,8 @@ gi.require_version("Gtk", "3.0")
 gi.require_version("Gdk", "3.0")
 from gi.repository import Gdk, Gtk  # noqa: E402
 
-from bornona_ibus.floating_bar.guide import build_guide_window  # noqa: E402
-from bornona_ibus.floating_bar.settings import build_settings_popover  # noqa: E402
+from july.floating_bar.guide import build_guide_window  # noqa: E402
+from july.floating_bar.settings import build_settings_popover  # noqa: E402
 
 # Snapping is a magnet effect, not unconditional: the bar only jumps to an
 # edge when dropped within this many pixels of it. Drop it further from any
@@ -24,15 +24,15 @@ from bornona_ibus.floating_bar.settings import build_settings_popover  # noqa: E
 _SNAP_THRESHOLD = 40
 
 _CSS = b"""
-window.bornona-bar {
+window.july-bar {
     background-color: rgba(46, 52, 64, 0.96);
     border-radius: 10px;
 }
-.bornona-bar-handle {
+.july-bar-handle {
     color: alpha(#ffffff, 0.35);
     font-size: 10px;
 }
-.bornona-bar-btn {
+.july-bar-btn {
     background: transparent;
     border: none;
     border-radius: 6px;
@@ -41,7 +41,7 @@ window.bornona-bar {
     min-width: 0;
     font-size: 14px;
 }
-.bornona-bar-btn:hover {
+.july-bar-btn:hover {
     background-color: alpha(#ffffff, 0.14);
 }
 """
@@ -67,8 +67,8 @@ class FloatingBar(Gtk.Window):
         self.set_keep_above(True)
         self.set_skip_taskbar_hint(True)
         self.set_skip_pager_hint(True)
-        self.set_title("Bornona")
-        self.get_style_context().add_class("bornona-bar")
+        self.set_title("July")
+        self.get_style_context().add_class("july-bar")
 
         self._apply_css()
         self._enable_transparency()
@@ -103,7 +103,7 @@ class FloatingBar(Gtk.Window):
         self.add(outer)
 
         handle = Gtk.Label(label="⋮⋮")
-        handle.get_style_context().add_class("bornona-bar-handle")
+        handle.get_style_context().add_class("july-bar-handle")
         handle.set_margin_start(2)
         handle.set_margin_end(4)
         outer.pack_start(handle, False, False, 0)
@@ -122,7 +122,7 @@ class FloatingBar(Gtk.Window):
         settings_button.set_tooltip_text("Settings")
         settings_button.set_label("⚙")
         settings_button.set_relief(Gtk.ReliefStyle.NONE)
-        settings_button.get_style_context().add_class("bornona-bar-btn")
+        settings_button.get_style_context().add_class("july-bar-btn")
         settings_button.set_popover(build_settings_popover(self))
         outer.pack_start(settings_button, False, False, 0)
 
@@ -134,12 +134,12 @@ class FloatingBar(Gtk.Window):
         button = Gtk.Button(label=label)
         button.set_tooltip_text(tooltip)
         button.set_relief(Gtk.ReliefStyle.NONE)
-        button.get_style_context().add_class("bornona-bar-btn")
+        button.get_style_context().add_class("july-bar-btn")
         return button
 
     def _build_context_menu(self) -> None:
         menu = Gtk.Menu()
-        quit_item = Gtk.MenuItem(label="Quit Bornona")
+        quit_item = Gtk.MenuItem(label="Quit July")
         quit_item.connect("activate", lambda _item: self._quit())
         menu.append(quit_item)
         menu.show_all()

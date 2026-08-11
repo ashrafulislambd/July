@@ -9,7 +9,7 @@ __pycache__/
 # Debian package build artifacts (built from debian/ on demand, not checked in)
 .pybuild/
 debian/.debhelper/
-debian/bornona-ibus/
+debian/july-ibus/
 debian/debhelper-build-stamp
 debian/files
 debian/*.substvars

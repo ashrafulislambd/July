@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Throwaway GTK window for manually testing the Bornona IBus engine.
+"""Throwaway GTK window for manually testing the July (Bornona) IBus engine.
 
 Not part of the shipped product — a Phase 2 verification aid only. Launch
 with GTK_IM_MODULE=ibus so this window (and only this window) routes
@@ -14,7 +14,7 @@ from gi.repository import Gtk  # noqa: E402
 
 
 def main():
-    win = Gtk.Window(title="Bornona dev test window")
+    win = Gtk.Window(title="July dev test window (Bornona layout)")
     win.set_default_size(500, 200)
     win.connect("destroy", Gtk.main_quit)
 

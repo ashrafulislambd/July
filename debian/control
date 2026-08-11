@@ -1,13 +1,13 @@
-Source: bornona-ibus
+Source: july-ibus
 Section: utils
 Priority: optional
-Maintainer: Bornona IBus project <imdashraful17@gmail.com>
+Maintainer: July project <imdashraful17@gmail.com>
 Build-Depends: debhelper-compat (= 13), dh-python, python3-all, python3-setuptools,
  pybuild-plugin-pyproject
 Standards-Version: 4.6.2
 Rules-Requires-Root: no
 
-Package: bornona-ibus
+Package: july-ibus
 Architecture: all
 Depends: ${python3:Depends}, ${misc:Depends},
  ibus,
@@ -15,13 +15,17 @@ Depends: ${python3:Depends}, ${misc:Depends},
  gir1.2-ibus-1.0,
  gir1.2-gtk-3.0,
  gir1.2-ayatanaappindicator3-0.1
-Description: Bornona fixed-layout Bangla input method for IBus
- A Bangla input method for Linux built on IBus, implementing the Bornona
- fixed key layout (see /usr/share/doc/bornona-ibus/Bornona.txt), with a
- draggable, edge-snapping floating mode-toggle bar in the spirit of
- Avro Keyboard.
+Provides: bornona-ibus
+Conflicts: bornona-ibus
+Replaces: bornona-ibus
+Description: July — a Bangla input method for Linux (Bornona layout)
+ July is a Bangla input method for Linux built on IBus. It ships the
+ fixed-layout Bornona keyboard mapping (see
+ /usr/share/doc/july-ibus/Bornona.txt), with a draggable, edge-snapping
+ floating mode-toggle bar in the spirit of Avro Keyboard, including a
+ bilingual (বাংলা/English) in-bar user guide to the key mapping.
  .
  After install, the floating bar autostarts for all users and makes
- Bornona the active input engine automatically. On some desktops (those
+ the Bornona engine active automatically. On some desktops (those
  without ibus already configured as the input method framework) you may
  need to run "im-config -n ibus" once and log back in.
