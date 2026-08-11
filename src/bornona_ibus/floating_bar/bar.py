@@ -15,6 +15,7 @@ gi.require_version("Gtk", "3.0")
 gi.require_version("Gdk", "3.0")
 from gi.repository import Gdk, Gtk  # noqa: E402
 
+from bornona_ibus.floating_bar.guide import build_guide_window  # noqa: E402
 from bornona_ibus.floating_bar.settings import build_settings_popover  # noqa: E402
 
 # Snapping is a magnet effect, not unconditional: the bar only jumps to an
@@ -59,6 +60,7 @@ class FloatingBar(Gtk.Window):
         self._dragging = False
         self._drag_offset = (0, 0)
         self._bangla_mode = initial_bangla_mode
+        self._guide_window = None
 
         self.set_decorated(False)
         self.set_resizable(False)
@@ -112,6 +114,10 @@ class FloatingBar(Gtk.Window):
         self._mode_button.connect("clicked", self._handle_mode_button_clicked)
         outer.pack_start(self._mode_button, False, False, 0)
 
+        guide_button = self._make_button("?", "User guide (বাংলা / English)")
+        guide_button.connect("clicked", self._on_guide_clicked)
+        outer.pack_start(guide_button, False, False, 0)
+
         settings_button = Gtk.MenuButton()
         settings_button.set_tooltip_text("Settings")
         settings_button.set_label("⚙")
@@ -155,6 +161,18 @@ class FloatingBar(Gtk.Window):
         """
         self._bangla_mode = enabled
         self._mode_button.set_label("বা" if self._bangla_mode else "EN")
+
+    def _on_guide_clicked(self, _button: Gtk.Button) -> None:
+        if self._guide_window is None:
+            self._guide_window = build_guide_window(bangla_initial=self._bangla_mode)
+            self._guide_window.connect("delete-event", self._on_guide_window_closed)
+        self._guide_window.show_all()
+        self._guide_window.present()
+
+    def _on_guide_window_closed(self, window: Gtk.Window, _event) -> bool:
+        window.destroy()
+        self._guide_window = None
+        return True
 
     def _on_minimize_clicked(self, _button: Gtk.Button) -> None:
         # Hiding is the caller's call, not ours: if there's no working tray

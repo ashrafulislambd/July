@@ -17,7 +17,7 @@ from __future__ import annotations
 import gi
 
 gi.require_version("IBus", "1.0")
-from gi.repository import GObject, IBus  # noqa: E402
+from gi.repository import GLib, GObject, IBus  # noqa: E402
 
 from bornona_ibus.composer import step  # noqa: E402
 from bornona_ibus.ipc import (  # noqa: E402
@@ -31,6 +31,12 @@ from bornona_ibus.layout_data import SINGLE_KEY  # noqa: E402
 # Printable ASCII range that Bornona keys live in (space through tilde).
 _PRINTABLE_MIN = 0x20
 _PRINTABLE_MAX = 0x7E
+
+# A pending key (h or r) with no follow-up key within this window gets
+# auto-flushed as its own glyph — otherwise it would sit invisibly until
+# some later, unrelated keystroke happened to resolve or flush it (or get
+# silently lost entirely on focus-out, without this).
+_PENDING_FLUSH_TIMEOUT_MS = 400
 
 # Modifiers that, when held, mean "not a layout keystroke" (e.g. Ctrl+C).
 _BYPASS_MODIFIERS = (
@@ -83,6 +89,7 @@ class BornonaEngine(IBus.Engine):
     def __init__(self):
         super().__init__()
         self._pending: str | None = None
+        self._pending_timeout_id: int | None = None
         self._config = _shared_config()
         self._bangla_mode = read_bangla_mode(self._config)
         self._config.connect("value-changed", self._on_config_value_changed)
@@ -93,8 +100,25 @@ class BornonaEngine(IBus.Engine):
             if not self._bangla_mode:
                 self._flush_pending()
 
+    def _cancel_pending_timeout(self) -> None:
+        if self._pending_timeout_id is not None:
+            GLib.source_remove(self._pending_timeout_id)
+            self._pending_timeout_id = None
+
+    def _schedule_pending_timeout(self) -> None:
+        self._cancel_pending_timeout()
+        self._pending_timeout_id = GLib.timeout_add(
+            _PENDING_FLUSH_TIMEOUT_MS, self._on_pending_timeout
+        )
+
+    def _on_pending_timeout(self) -> bool:
+        self._pending_timeout_id = None
+        self._flush_pending()
+        return GLib.SOURCE_REMOVE
+
     def _flush_pending(self) -> None:
         """Commit any buffered pending key as its own glyph and clear it."""
+        self._cancel_pending_timeout()
         if self._pending is not None:
             glyph = SINGLE_KEY.get(self._pending, self._pending)
             self.commit_text(IBus.Text.new_from_string(glyph))
@@ -125,6 +149,7 @@ class BornonaEngine(IBus.Engine):
         # anything; otherwise let the application handle deletion normally.
         if keyval == IBus.KEY_BackSpace:
             if self._pending is not None:
+                self._cancel_pending_timeout()
                 self._pending = None
                 return True
             return False
@@ -137,6 +162,10 @@ class BornonaEngine(IBus.Engine):
             text, self._pending = step(self._pending, key)
             if text:
                 self.commit_text(IBus.Text.new_from_string(text))
+            if self._pending is not None:
+                self._schedule_pending_timeout()
+            else:
+                self._cancel_pending_timeout()
             return True
 
         # Any other key (Enter, Tab, arrows, function keys, ...): flush
@@ -145,10 +174,10 @@ class BornonaEngine(IBus.Engine):
         return False
 
     def do_reset(self) -> None:
-        self._pending = None
+        self._flush_pending()
 
     def do_focus_out(self) -> None:
-        self._pending = None
+        self._flush_pending()
 
 
 GObject.type_register(BornonaEngine)
