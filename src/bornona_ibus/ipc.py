@@ -8,6 +8,8 @@ the only shared state is the Bangla-on/off mode flag.
 
 from __future__ import annotations
 
+import sys
+
 import gi
 
 gi.require_version("IBus", "1.0")
@@ -45,10 +47,22 @@ def ensure_bornona_engine_active(bus: IBus.Bus | None = None) -> None:
     required.
     """
     bus = bus or get_bus()
-    current = bus.get_global_engine()
+    try:
+        current = bus.get_global_engine()
+    except GLib.Error:
+        # Some IBus setups raise here (rather than returning None) when no
+        # global engine has ever been set on this machine — a fresh
+        # install, most likely. Treat it the same as "nothing set yet".
+        current = None
     if current is not None and current.get_name() == ENGINE_NAME:
         return
-    bus.set_global_engine_async(ENGINE_NAME, -1, None, None, None)
+    try:
+        bus.set_global_engine_async(ENGINE_NAME, -1, None, None, None)
+    except GLib.Error as exc:
+        # Never let engine auto-selection take the whole bar down with it —
+        # worst case the user selects Bornona manually, same as before this
+        # existed.
+        print(f"bornona-ibus: could not set Bornona as active engine: {exc}", file=sys.stderr)
 
 
 def read_bangla_mode(config: IBus.Config, default: bool = True) -> bool:

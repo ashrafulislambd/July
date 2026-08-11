@@ -145,8 +145,21 @@ class FloatingBar(Gtk.Window):
         if self._on_mode_toggle is not None:
             self._on_mode_toggle(self._bangla_mode)
 
+    def set_bangla_mode(self, enabled: bool) -> None:
+        """Update the displayed mode without triggering `on_mode_toggle`.
+
+        Used to reflect the real persisted state once it's known (IBus
+        setup happens after the window is already shown — see
+        `floating_bar/__main__.py`), without re-writing it right back to
+        config as if the user had clicked the button.
+        """
+        self._bangla_mode = enabled
+        self._mode_button.set_label("বা" if self._bangla_mode else "EN")
+
     def _on_minimize_clicked(self, _button: Gtk.Button) -> None:
-        self.hide()
+        # Hiding is the caller's call, not ours: if there's no working tray
+        # to restore from, hiding here would trap the user with no way to
+        # bring the bar back.
         if self._on_minimize is not None:
             self._on_minimize()
 

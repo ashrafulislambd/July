@@ -1,40 +1,71 @@
 """Tray icon for minimizing/restoring the floating bar.
 
-Tries the Ayatana fork of AppIndicator3 first (what's packaged on this
-machine — `gir1.2-ayatanaappindicator3-0.1`), then falls back to the
-original AppIndicator3 typelib for portability across distros.
+Tries the Ayatana fork of AppIndicator3 first (what's packaged on
+Mint/some distros as `gir1.2-ayatanaappindicator3-0.1`), then falls back
+to the original AppIndicator3 typelib. Neither ships by default on plain
+Ubuntu GNOME, so this must degrade gracefully rather than crash — an
+earlier version let an uncaught ImportError here take down the entire
+floating bar process before any window could appear (confirmed: engine
+worked fine, only the bar failed, on a GNOME machine neither typelib was
+installed on).
 """
 
 from __future__ import annotations
 
+import importlib
+import sys
+
 import gi
 
-try:
-    gi.require_version("AyatanaAppIndicator3", "0.1")
-    from gi.repository import AyatanaAppIndicator3 as AppIndicator3
-except (ValueError, ImportError):
-    gi.require_version("AppIndicator3", "0.1")
-    from gi.repository import AppIndicator3  # type: ignore[no-redef]
+AppIndicator3 = None
+for _module_name in ("AyatanaAppIndicator3", "AppIndicator3"):
+    try:
+        gi.require_version(_module_name, "0.1")
+        AppIndicator3 = importlib.import_module(f"gi.repository.{_module_name}")
+        break
+    except (ValueError, ImportError):
+        continue
+
+TRAY_AVAILABLE = AppIndicator3 is not None
 
 APP_ID = "bornona-ibus"
 
 
 class TrayIcon:
-    """Wraps an AppIndicator that restores the floating bar when clicked."""
+    """Wraps an AppIndicator that restores the floating bar when clicked.
+
+    If neither AppIndicator3 typelib is available, this becomes an inert
+    no-op object instead of raising — `is_available` tells callers whether
+    minimize-to-tray actually works, so they can avoid the trap of hiding
+    the bar with no way to bring it back.
+    """
 
     def __init__(self, on_restore, on_quit=None):
+        self.is_available = TRAY_AVAILABLE
+        self._indicator = None
+        if not self.is_available:
+            print(
+                "bornona-ibus: no AppIndicator3/AyatanaAppIndicator3 typelib found; "
+                "tray icon disabled, minimize-to-tray unavailable.",
+                file=sys.stderr,
+            )
+            return
+
         self._on_restore = on_restore
         self._on_quit = on_quit
-        self._indicator = AppIndicator3.Indicator.new(
-            APP_ID,
-            "input-keyboard",
-            AppIndicator3.IndicatorCategory.APPLICATION_STATUS,
-        )
-        self._indicator.set_status(AppIndicator3.IndicatorStatus.PASSIVE)
-        self._indicator.set_title("Bornona")
-
-        menu = self._build_menu()
-        self._indicator.set_menu(menu)
+        try:
+            self._indicator = AppIndicator3.Indicator.new(
+                APP_ID,
+                "input-keyboard",
+                AppIndicator3.IndicatorCategory.APPLICATION_STATUS,
+            )
+            self._indicator.set_status(AppIndicator3.IndicatorStatus.PASSIVE)
+            self._indicator.set_title("Bornona")
+            self._indicator.set_menu(self._build_menu())
+        except Exception as exc:  # noqa: BLE001 - degrade, don't crash the bar
+            print(f"bornona-ibus: tray icon setup failed ({exc}); disabling.", file=sys.stderr)
+            self.is_available = False
+            self._indicator = None
 
     def _build_menu(self):
         gi.require_version("Gtk", "3.0")
@@ -56,7 +87,9 @@ class TrayIcon:
         return menu
 
     def show(self) -> None:
-        self._indicator.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
+        if self._indicator is not None:
+            self._indicator.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
 
     def hide(self) -> None:
-        self._indicator.set_status(AppIndicator3.IndicatorStatus.PASSIVE)
+        if self._indicator is not None:
+            self._indicator.set_status(AppIndicator3.IndicatorStatus.PASSIVE)
