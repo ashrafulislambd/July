@@ -1,6 +1,6 @@
 [project]
 name = "bornona-ibus"
-version = "0.1.0"
+version = "0.1.1"
 description = "A fixed-layout Bangla (Bornona) input method for Linux, built on IBus."
 requires-python = ">=3.10"
 license = { text = "MIT" }

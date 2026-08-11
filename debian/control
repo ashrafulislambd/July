@@ -1,7 +1,7 @@
 Source: bornona-ibus
 Section: utils
 Priority: optional
-Maintainer: Bornona IBus project <manoj8indore@gmail.com>
+Maintainer: Bornona IBus project <imdashraful17@gmail.com>
 Build-Depends: debhelper-compat (= 13), dh-python, python3-all, python3-setuptools,
  pybuild-plugin-pyproject
 Standards-Version: 4.6.2

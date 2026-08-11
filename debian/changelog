@@ -1,5 +1,20 @@
+bornona-ibus (0.1.1-1) unstable; urgency=medium
+
+  * Fix floating bar silently crashing on startup on desktops without
+    AppIndicator3/AyatanaAppIndicator3 (e.g. plain Ubuntu GNOME) --
+    the bar now degrades gracefully with minimize-to-tray disabled
+    instead of failing to launch at all.
+  * Harden IBus engine auto-selection against a GLib.Error some setups
+    raise when no global engine has ever been configured.
+  * Bar window now always shows first; IBus setup happens afterward
+    and can no longer prevent the window from appearing.
+  * Uncaught startup errors now print a real traceback to stderr
+    instead of failing silently with no diagnostic trail.
+
+ -- Bornona IBus project <imdashraful17@gmail.com>  Wed, 12 Aug 2026 04:45:00 +0600
+
 bornona-ibus (0.1.0-1) unstable; urgency=medium
 
   * Initial release.
 
- -- Bornona IBus project <manoj8indore@gmail.com>  Mon, 10 Aug 2026 10:00:00 +0600
+ -- Bornona IBus project <imdashraful17@gmail.com>  Mon, 10 Aug 2026 10:00:00 +0600
