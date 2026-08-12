@@ -16,7 +16,6 @@ gi.require_version("Gdk", "3.0")
 from gi.repository import Gdk, Gtk  # noqa: E402
 
 from july.floating_bar.guide import build_guide_window  # noqa: E402
-from july.floating_bar.settings import build_settings_popover  # noqa: E402
 
 # Snapping is a magnet effect, not unconditional: the bar only jumps to an
 # edge when dropped within this many pixels of it. Drop it further from any
@@ -48,7 +47,7 @@ window.july-bar {
 
 
 class FloatingBar(Gtk.Window):
-    """A small always-on-top bar: mode toggle, settings, minimize-to-tray."""
+    """A small always-on-top bar: mode toggle, user guide, minimize-to-tray."""
 
     def __init__(
         self, on_minimize=None, on_quit=None, on_mode_toggle=None, initial_bangla_mode=True
@@ -117,14 +116,6 @@ class FloatingBar(Gtk.Window):
         guide_button = self._make_button("?", "User guide (বাংলা / English)")
         guide_button.connect("clicked", self._on_guide_clicked)
         outer.pack_start(guide_button, False, False, 0)
-
-        settings_button = Gtk.MenuButton()
-        settings_button.set_tooltip_text("Settings")
-        settings_button.set_label("⚙")
-        settings_button.set_relief(Gtk.ReliefStyle.NONE)
-        settings_button.get_style_context().add_class("july-bar-btn")
-        settings_button.set_popover(build_settings_popover(self))
-        outer.pack_start(settings_button, False, False, 0)
 
         minimize_button = self._make_button("—", "Minimize to tray")
         minimize_button.connect("clicked", self._on_minimize_clicked)
