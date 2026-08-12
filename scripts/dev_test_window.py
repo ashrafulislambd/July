@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Throwaway GTK window for manually testing the July (Bornona) IBus engine.
 
-Not part of the shipped product — a Phase 2 verification aid only. Launch
+Not part of the shipped product — a manual verification aid only. Launch
 with GTK_IM_MODULE=ibus so this window (and only this window) routes
 keystrokes through IBus, then type into the text view and compare against
-Bornona.txt.
+the Bornona layout mapping (src/july/layout_data.py, or the in-app "?"
+guide).
 """
 
 import gi

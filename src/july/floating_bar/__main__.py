@@ -4,8 +4,7 @@ On startup, ensures the Bornona engine is the active IBus engine (not every desk
 runs IBus's own panel/tray switcher — confirmed missing on XFCE here — so
 the bar is the one guaranteed control surface, same as Avro's). Wires the
 bar's mode toggle to the IBus engine's live state via the shared
-Config-based IPC (see SPEC.md's Architecture Decisions and
-`july.ipc`). Requires ibus-daemon to be running.
+Config-based IPC (see `july.ipc`). Requires ibus-daemon to be running.
 
 The bar window is always constructed and shown first; IBus config/engine
 setup happens afterward and is defensive throughout (see `ipc.py`) — a

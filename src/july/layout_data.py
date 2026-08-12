@@ -1,9 +1,8 @@
 """Bornona fixed-layout key→glyph mapping.
 
 This module is the sole source of truth for how raw key symbols translate
-to Bangla Unicode output. It is derived directly from ``Bornona.txt`` at the
-repository root — any change here must be checked against that file first
-(see SPEC.md's Boundaries section).
+to Bangla Unicode output — any change here changes real typing behavior,
+so treat edits with care and re-run the full composer test suite.
 
 Two kinds of entries exist because two keys (``h`` and ``r``) are
 order-sensitive: what they produce depends on the key that follows them.

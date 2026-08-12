@@ -4,7 +4,7 @@ Known limitation (X11 only): dragging/snapping relies on the window
 manager honoring client-requested absolute window positions
 (`Gtk.Window.move`). Wayland's security model disallows this for regular
 top-level windows, so drag/snap will not work under a Wayland session —
-documented in tasks/plan.md's Risks table, not silently broken.
+a known, deliberate limitation (see README.md), not silently broken.
 """
 
 from __future__ import annotations

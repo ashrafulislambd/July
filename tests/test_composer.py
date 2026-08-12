@@ -1,15 +1,15 @@
 """Unit tests for the Bornona composer (src/july/composer.py).
 
-Written against the mapping in Bornona.txt. Each test feeds a raw key
-sequence (as typed) into `compose()` and asserts the exact Bangla Unicode
-output, per SPEC.md's Testing Strategy.
+Written against the Bornona layout mapping in layout_data.py. Each test
+feeds a raw key sequence (as typed) into `compose()` and asserts the exact
+Bangla Unicode output.
 """
 
 from july.composer import compose
 
 
 class TestIndependentVowels:
-    """h + <vowel-kar-key> -> independent vowel letter (Bornona.txt §1)."""
+    """h + <vowel-kar-key> -> independent vowel letter."""
 
     def test_a_alone(self):
         assert compose(["A"]) == "অ"
@@ -46,7 +46,7 @@ class TestIndependentVowels:
 
 
 class TestKars:
-    """Vowel modifiers applied directly after a consonant (Bornona.txt §2)."""
+    """Vowel signs (kars) applied directly after a consonant."""
 
     def test_kaar(self):
         assert compose(["k", "a"]) == "কা"
@@ -80,7 +80,7 @@ class TestKars:
 
 
 class TestConsonants:
-    """All consonants across the five বর্গ groups (Bornona.txt §3)."""
+    """All consonants across the five বর্গ groups."""
 
     @staticmethod
     def _check(key, glyph):
@@ -139,7 +139,7 @@ class TestConjuncts:
 
 
 class TestHRDisambiguation:
-    """h and r are order-sensitive: h+r != r+h (Bornona.txt §4)."""
+    """h and r are order-sensitive: h+r != r+h."""
 
     def test_h_then_r_is_rofola(self):
         assert compose(["h", "r"]) == "্র"

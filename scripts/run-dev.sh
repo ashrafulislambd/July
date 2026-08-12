@@ -2,8 +2,7 @@
 # Runs the July engine (Bornona layout) in standalone dev mode: registers
 # itself directly against a running ibus-daemon over D-Bus and switches to
 # it immediately. No component XML installation needed — this is the fast
-# path for local development and manual testing (see SPEC.md Testing
-# Strategy).
+# path for local development and manual testing.
 #
 # Requires ibus-daemon to already be running (e.g. `ibus-daemon -x --xim &`).
 set -euo pipefail

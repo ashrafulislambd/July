@@ -1,9 +1,9 @@
 """Shared bar <-> engine coordination via IBus's own Config service.
 
-Per SPEC.md's Architecture Decisions: both the floating bar and the engine
-already talk to IBus over D-Bus, so we reuse `IBus.Bus.get_config()` as the
-IPC channel for shared state instead of inventing a bespoke one. Currently
-the only shared state is the Bangla-on/off mode flag.
+By design: both the floating bar and the engine already talk to IBus over
+D-Bus, so we reuse `IBus.Bus.get_config()` as the IPC channel for shared
+state instead of inventing a bespoke one. Currently the only shared state
+is the Bangla-on/off mode flag.
 """
 
 from __future__ import annotations

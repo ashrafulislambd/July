@@ -20,8 +20,7 @@ Conflicts: bornona-ibus
 Replaces: bornona-ibus
 Description: July — a Bangla input method for Linux (Bornona layout)
  July is a Bangla input method for Linux built on IBus. It ships the
- fixed-layout Bornona keyboard mapping (see
- /usr/share/doc/july-ibus/Bornona.txt), with a draggable, edge-snapping
+ fixed-layout Bornona keyboard mapping, with a draggable, edge-snapping
  floating mode-toggle bar in the spirit of Avro Keyboard, including a
  bilingual (বাংলা/English) in-bar user guide to the key mapping.
  .

@@ -21,3 +21,9 @@ build/
 .agents/
 .claude/
 skills-lock.json
+
+# Working/planning material for building this project with an AI coding
+# agent — not part of the shipped product, kept out of the repo.
+Bornona.txt
+SPEC.md
+tasks/
