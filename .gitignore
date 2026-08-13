@@ -27,3 +27,8 @@ skills-lock.json
 Bornona.txt
 SPEC.md
 tasks/
+
+# Built release packages (.deb, Arch .pkg.tar.zst) -- built on demand,
+# not checked in. Kept here (rather than the parent directory) so
+# they're easy to find alongside the repo.
+dist-packages/
