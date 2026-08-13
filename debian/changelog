@@ -1,3 +1,20 @@
+july-ibus (0.2.1-1) unstable; urgency=medium
+
+  * Add Arch Linux packaging (PKGBUILD + .SRCINFO under packaging/arch/),
+    alongside the existing .deb. Same IBus component registration and
+    system-wide autostart entries; provides/conflicts/replaces
+    bornona-ibus for a clean migration on Arch too.
+  * Remove the floating bar's settings ("gear") button entirely -- it
+    only ever opened a stub popover ("More settings coming soon") and
+    wasn't a real feature.
+  * Restyle README.md as a product page for people discovering the
+    project; move technical/contributor documentation to
+    DEVELOPMENT.md.
+  * Remove agentic-coding working files (Bornona.txt, SPEC.md, tasks/)
+    that were never meant to ship as part of the project.
+
+ -- July project <imdashraful17@gmail.com>  Thu, 13 Aug 2026 06:15:00 +0600
+
 july-ibus (0.2.0-1) unstable; urgency=medium
 
   * Renamed the project from "Bornona IBus" to "July" (the Bornona

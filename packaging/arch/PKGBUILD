@@ -1,6 +1,6 @@
 # Maintainer: July project <imdashraful17@gmail.com>
 pkgname=july-ibus
-pkgver=0.2.0
+pkgver=0.2.1
 pkgrel=1
 pkgdesc="July - a Bangla input method for Linux, built on IBus (Bornona layout)"
 arch=('any')
@@ -13,7 +13,11 @@ provides=('bornona-ibus')
 conflicts=('bornona-ibus')
 replaces=('bornona-ibus')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/ashrafulislambd/July/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('3d56c55da65b99378c5010e1195b32018ac85e5e867b458345c63174ec08ce35')
+# TODO: run `updpkgsums` here once the v$pkgver tag is pushed to GitHub --
+# GitHub's generated tarball isn't byte-identical to a local `git archive`
+# (gzip metadata differs), so this can only be computed after the real
+# tag exists upstream.
+sha256sums=('SKIP')
 
 build() {
   cd "July-$pkgver"
