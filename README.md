@@ -49,9 +49,16 @@ sudo apt install ./july-ibus_<version>_all.deb
 `apt` pulls in everything else it needs automatically. Log out, log back
 in, and the floating bar is already there, ready to type.
 
+On Arch (or an Arch-based distro), build from the `PKGBUILD`:
+
+```bash
+cd packaging/arch && makepkg -si
+```
+
 > [!TIP]
-> Building the `.deb` yourself, running from source, or contributing?
-> See [`DEVELOPMENT.md`](./DEVELOPMENT.md) for the full technical setup.
+> Building the `.deb`/`PKGBUILD` yourself, running from source, or
+> contributing? See [`DEVELOPMENT.md`](./DEVELOPMENT.md) for the full
+> technical setup.
 
 ## ⌨️ The Bornona Layout
 

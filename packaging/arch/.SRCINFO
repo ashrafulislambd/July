@@ -1,0 +1,22 @@
+pkgbase = july-ibus
+	pkgdesc = July - a Bangla input method for Linux, built on IBus (Bornona layout)
+	pkgver = 0.2.0
+	pkgrel = 1
+	url = https://github.com/ashrafulislambd/July
+	arch = any
+	license = MIT
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-wheel
+	makedepends = python-setuptools
+	depends = ibus
+	depends = python-gobject
+	depends = gtk3
+	optdepends = libayatana-appindicator: tray icon / minimize-to-tray support
+	provides = bornona-ibus
+	conflicts = bornona-ibus
+	replaces = bornona-ibus
+	source = july-ibus-0.2.0.tar.gz::https://github.com/ashrafulislambd/July/archive/refs/tags/v0.2.0.tar.gz
+	sha256sums = 3d56c55da65b99378c5010e1195b32018ac85e5e867b458345c63174ec08ce35
+
+pkgname = july-ibus

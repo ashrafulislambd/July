@@ -1,0 +1,43 @@
+# Maintainer: July project <imdashraful17@gmail.com>
+pkgname=july-ibus
+pkgver=0.2.0
+pkgrel=1
+pkgdesc="July - a Bangla input method for Linux, built on IBus (Bornona layout)"
+arch=('any')
+url="https://github.com/ashrafulislambd/July"
+license=('MIT')
+depends=('ibus' 'python-gobject' 'gtk3')
+optdepends=('libayatana-appindicator: tray icon / minimize-to-tray support')
+makedepends=('python-build' 'python-installer' 'python-wheel' 'python-setuptools')
+provides=('bornona-ibus')
+conflicts=('bornona-ibus')
+replaces=('bornona-ibus')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/ashrafulislambd/July/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('3d56c55da65b99378c5010e1195b32018ac85e5e867b458345c63174ec08ce35')
+
+build() {
+  cd "July-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "July-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  install -d "$pkgdir/usr/share/ibus/component"
+  sed 's|@EXEC@|/usr/bin/july-ibus-engine --ibus|' data/july.xml.in \
+    > "$pkgdir/usr/share/ibus/component/july.xml"
+
+  install -d "$pkgdir/etc/xdg/autostart"
+  sed 's|@VENV_PYTHON@ -m july.floating_bar|/usr/bin/july-ibus-bar|' \
+    data/autostart/july-floating-bar.desktop.in \
+    > "$pkgdir/etc/xdg/autostart/july-floating-bar.desktop"
+  sed 's|@ENSURE_SCRIPT@|/usr/bin/july-ensure-ibus-daemon|' \
+    data/autostart/july-ibus-daemon.desktop.in \
+    > "$pkgdir/etc/xdg/autostart/july-ibus-daemon.desktop"
+
+  install -Dm755 scripts/ensure-ibus-daemon.sh \
+    "$pkgdir/usr/bin/july-ensure-ibus-daemon"
+
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

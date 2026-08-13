@@ -80,6 +80,35 @@ entries **system-wide** to `/etc/xdg/autostart/` — covers every user on
 the machine, not just the one who installed it. See [`debian/`](./debian)
 for the packaging source.
 
+## Packaging (Arch / `PKGBUILD`)
+
+```bash
+cd packaging/arch
+makepkg -si
+```
+
+Builds from the `v<version>` GitHub release tag (not the local working
+tree), installs the wheel to `/usr/lib/python3*/site-packages/july/`,
+registers the IBus component, and installs the same autostart entries as
+the `.deb`, system-wide. `provides`/`conflicts`/`replaces` cover the old
+`bornona-ibus` name for a clean migration. See
+[`packaging/arch/PKGBUILD`](./packaging/arch/PKGBUILD).
+
+Before cutting a new tag, regenerate `.SRCINFO` (required by the AUR) and
+update `pkgver`/`sha256sums`:
+
+```bash
+cd packaging/arch
+updpkgsums          # or: sha256sum <(curl -sL <tag tarball URL>)
+makepkg --printsrcinfo > .SRCINFO
+```
+
+> [!IMPORTANT]
+> The PKGBUILD always builds from the tagged GitHub release, not
+> whatever's currently checked out locally — pushing commits to `main`
+> does **not** change what `makepkg` builds until a new tag matching
+> `pkgver` exists.
+
 ## Project Structure
 
 ```
@@ -94,6 +123,7 @@ data/july.xml.in              IBus component descriptor template
 data/autostart/                Autostart .desktop templates (bar, ibus-daemon safety net)
 scripts/                      install-dev.sh, run-dev.sh, ensure-ibus-daemon.sh, dev test window
 debian/                       .deb packaging (see Packaging above)
+packaging/arch/               PKGBUILD / .SRCINFO for Arch (see Packaging above)
 tests/test_composer.py        Composer unit tests (the core test suite)
 ```
 
