@@ -4,6 +4,7 @@
 
 ### Type Bangla on Linux the way it should feel — fast, native, and always one click away.
 
+[![Latest release](https://img.shields.io/github/v/release/ashrafulislambd/July)](https://github.com/ashrafulislambd/July/releases/latest)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Linux-FCC624?logo=linux&logoColor=black)](#-install)
 [![Built on IBus](https://img.shields.io/badge/built%20on-IBus-6E4C1E)](https://github.com/ibus/ibus)
@@ -40,25 +41,30 @@ browser, your terminal, your editor, everywhere.
 
 ## 📦 Install
 
-The easiest path — download the `.deb`, install it, done:
+Grab the package for your distro from the
+**[latest release](https://github.com/ashrafulislambd/July/releases/latest)**,
+then:
+
+**Debian / Ubuntu / Mint**
 
 ```bash
 sudo apt install ./july-ibus_<version>_all.deb
 ```
 
-`apt` pulls in everything else it needs automatically. Log out, log back
-in, and the floating bar is already there, ready to type.
-
-On Arch (or an Arch-based distro), build from the `PKGBUILD`:
+**Arch (or Arch-based)**
 
 ```bash
-cd packaging/arch && makepkg -si
+sudo pacman -U ./july-ibus-<version>-1-any.pkg.tar.zst
 ```
 
+Either way, everything else it needs is pulled in automatically. Log
+out, log back in, and the floating bar is already there, ready to type.
+
 > [!TIP]
-> Building the `.deb`/`PKGBUILD` yourself, running from source, or
-> contributing? See [`DEVELOPMENT.md`](./DEVELOPMENT.md) for the full
-> technical setup.
+> Prefer building it yourself, running from source, or contributing?
+> See [`DEVELOPMENT.md`](./DEVELOPMENT.md) for the full technical
+> setup, including `cd packaging/arch && makepkg -si` to build the Arch
+> package from the tagged source instead of downloading it prebuilt.
 
 ## ⌨️ The Bornona Layout
 
