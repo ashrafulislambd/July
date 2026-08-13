@@ -13,11 +13,7 @@ provides=('bornona-ibus')
 conflicts=('bornona-ibus')
 replaces=('bornona-ibus')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/ashrafulislambd/July/archive/refs/tags/v$pkgver.tar.gz")
-# TODO: run `updpkgsums` here once the v$pkgver tag is pushed to GitHub --
-# GitHub's generated tarball isn't byte-identical to a local `git archive`
-# (gzip metadata differs), so this can only be computed after the real
-# tag exists upstream.
-sha256sums=('SKIP')
+sha256sums=('6d205572b50288a4db69bb575022e236563029fdefa05815b05546bfb1204e95')
 
 build() {
   cd "July-$pkgver"

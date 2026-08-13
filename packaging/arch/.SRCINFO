@@ -1,6 +1,6 @@
 pkgbase = july-ibus
 	pkgdesc = July - a Bangla input method for Linux, built on IBus (Bornona layout)
-	pkgver = 0.2.0
+	pkgver = 0.2.1
 	pkgrel = 1
 	url = https://github.com/ashrafulislambd/July
 	arch = any
@@ -16,7 +16,7 @@ pkgbase = july-ibus
 	provides = bornona-ibus
 	conflicts = bornona-ibus
 	replaces = bornona-ibus
-	source = july-ibus-0.2.0.tar.gz::https://github.com/ashrafulislambd/July/archive/refs/tags/v0.2.0.tar.gz
-	sha256sums = 3d56c55da65b99378c5010e1195b32018ac85e5e867b458345c63174ec08ce35
+	source = july-ibus-0.2.1.tar.gz::https://github.com/ashrafulislambd/July/archive/refs/tags/v0.2.1.tar.gz
+	sha256sums = 6d205572b50288a4db69bb575022e236563029fdefa05815b05546bfb1204e95
 
 pkgname = july-ibus
